@@ -198,6 +198,21 @@ nav.tabs button[aria-current="true"] .nb{background:#fff;color:var(--blue-d)}
 .empty{padding:24px;text-align:center;color:var(--muted)}
 .opt.ro{cursor:pointer}
 .opt.ro:active{transform:none}
+.pybig{font-size:32px;font-weight:900;letter-spacing:.02em}
+.box.miss{border-style:dashed;border-color:var(--blue);color:var(--blue);background:var(--blue-t)}
+.sres{margin:6px 0 4px}
+.sfull,.fb .detail .sfull{font-size:24px;line-height:1.9}
+.slab{font-size:12.5px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:10px 0 6px}
+.fb .formula{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fb .formula span,.hintbox .formula span{padding:3px 9px;border-radius:9px;background:var(--surface);border:2px solid var(--line);font-size:14px;font-weight:800}
+.fb .formula span.key,.hintbox .formula span.key{background:var(--blue);border-color:var(--blue);color:#fff;font-family:var(--f-han);font-size:16px}
+.fb .formula i,.hintbox .formula i{color:var(--muted);font-style:normal;font-weight:900}
+.fb .gnote{font-size:14.5px;background:var(--sun-t);border-radius:12px;padding:9px 12px;margin-top:10px}
+.hintbox{margin-top:14px;padding:10px 12px;border-radius:14px;background:var(--blue-t)}
+.hintbox .formula{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center}
+.fbacts{display:flex;gap:10px;flex-wrap:wrap}
+.playhead .chip{flex:none}
+.endl{text-align:center;margin:-8px 0 12px;font-size:13.5px}
 /* trang luyện tập */
 .scope{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
 .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -979,6 +994,182 @@ SENTS.push(
  ['我 晚上 十 点 睡觉','。','Mình đi ngủ lúc 10 giờ tối.'],
  ['你 姐姐 是 大学生 吗','？','Chị gái bạn là sinh viên à?']
 );
+/* ===== Ngân hàng câu xếp từ: câu dùng hằng ngày, kèm cấu trúc + giải thích =====
+   từ (cách nhau bằng dấu cách)|dấu câu|nghĩa|cấu trúc (các phần nối bằng +)|giải thích|chủ đề */
+const SENT_RAW=`你好 我 叫 王 明|。|Chào bạn, mình tên là Vương Minh.|Chủ ngữ + 叫 + tên|叫 nghĩa là “tên là”. Giới thiệu tên: 我叫 + tên.|Chào hỏi
+你 叫 什么 名字|？|Bạn tên là gì?|Chủ ngữ + 叫 + 什么 + 名字|Từ để hỏi 什么 đứng đúng chỗ của thông tin cần hỏi, không đảo lên đầu câu như tiếng Anh.|Chào hỏi
+我 是 越南人|。|Mình là người Việt Nam.|A + 是 + B|Câu “là”: A 是 B. 越南 là Việt Nam, thêm 人 thành “người Việt Nam”.|Chào hỏi
+你 是 哪 国 人|？|Bạn là người nước nào?|Chủ ngữ + 是 + 哪 + 国 + 人|哪 = “nào”, luôn đứng trước danh từ: 哪国 = nước nào.|Chào hỏi
+认识 你 很 高兴|！|Rất vui được quen bạn!|认识 + người + 很高兴|Câu xã giao khi gặp lần đầu. Đáp lại: 认识你我也很高兴.|Chào hỏi
+你 今天 怎么样|？|Hôm nay bạn thế nào?|Chủ ngữ + thời gian + 怎么样|怎么样 hỏi tình trạng, ý kiến, luôn đứng cuối câu.|Chào hỏi
+我 很 好 你 呢|？|Mình khỏe, còn bạn?|Câu trả lời + 你 + 呢|呢 ở cuối dùng để hỏi ngược lại: “còn bạn thì sao?”.|Chào hỏi
+你 吃饭 了 吗|？|Bạn ăn cơm chưa?|Động từ + 了 + 吗|Câu chào hỏi rất quen thuộc. 了 báo việc đã xảy ra, 吗 biến câu thành câu hỏi.|Chào hỏi
+明天 见|！|Mai gặp nhé!|Thời gian + 见|Cách tạm biệt hẹn gặp lại: thời gian + 见.|Chào hỏi
+对不起 我 来 晚 了|。|Xin lỗi, mình đến muộn.|Động từ + 晚 + 了|来晚了 = đến muộn rồi. Đáp lại lời xin lỗi: 没关系.|Chào hỏi
+他 不 是 老师|。|Anh ấy không phải giáo viên.|A + 不是 + B|Phủ định của 是 luôn là 不是, không dùng 没是.|Giới thiệu
+你 是 学生 吗|？|Bạn là học sinh à?|Câu kể + 吗|Thêm 吗 vào cuối câu kể để hỏi có/không.|Giới thiệu
+他 也 是 学生|。|Anh ấy cũng là học sinh.|Chủ ngữ + 也 + 是 + B|也 (cũng) đứng sau chủ ngữ, trước động từ. Không nói 也他是.|Giới thiệu
+我们 都 是 越南人|。|Chúng mình đều là người Việt Nam.|Chủ ngữ số nhiều + 都 + 是 + B|都 (đều) đứng sau chủ ngữ số nhiều, trước động từ.|Giới thiệu
+他 是 我 的 中国 朋友|。|Anh ấy là bạn người Trung Quốc của mình.|A + 是 + 我的 + định ngữ + danh từ|Định ngữ đứng TRƯỚC danh từ: 中国朋友 = bạn người Trung Quốc.|Giới thiệu
+你 是 不 是 老师|？|Bạn có phải giáo viên không?|是 + 不 + 是|Câu chính phản A不A thay cho 吗. Đã dùng A不A thì không thêm 吗.|Giới thiệu
+你 住 在 哪儿|？|Bạn sống ở đâu?|住 + 在 + 哪儿|在 + nơi chốn đặt sau 住 để nói nơi sống.|Giới thiệu
+我 会 说 一点儿 汉语|。|Mình biết nói một chút tiếng Hán.|会 + động từ + 一点儿 + tân ngữ|会 = biết (kỹ năng học được). 一点儿 = một chút, đứng trước danh từ.|Giới thiệu
+我 家 有 四 口 人|。|Nhà mình có bốn người.|Nơi + 有 + số + 口 + 人|口 là lượng từ đếm người trong gia đình.|Gia đình
+我 有 一 个 哥哥|。|Mình có một anh trai.|Chủ ngữ + 有 + số + 个 + danh từ|有 = có. Giữa số và danh từ phải có lượng từ (个).|Gia đình
+你 有 没有 弟弟|？|Bạn có em trai không?|有没有 + danh từ|有没有 là dạng hỏi chính phản của 有, không cần thêm 吗.|Gia đình
+我 没有 妹妹|。|Mình không có em gái.|没有 + danh từ|Phủ định của 有 luôn là 没有, không bao giờ nói 不有.|Gia đình
+我 爸爸 是 医生|。|Bố mình là bác sĩ.|我 + người thân + 是 + nghề|Trước người thân có thể bỏ 的: 我爸爸 = 我的爸爸.|Gia đình
+我 妈妈 在 家 做饭|。|Mẹ mình nấu cơm ở nhà.|Chủ ngữ + 在 + nơi + động từ|Nơi chốn (在 + nơi) đứng TRƯỚC động từ, ngược với tiếng Việt.|Gia đình
+她 是 我 的 女朋友|。|Cô ấy là bạn gái của mình.|A + 是 + 我的 + danh từ|的 = “của”, đặt giữa người sở hữu và vật/người được sở hữu.|Gia đình
+我 女儿 今年 五 岁|。|Con gái mình năm nay 5 tuổi.|Chủ ngữ + 今年 + số + 岁|Nói tuổi không cần 是: 我女儿五岁.|Gia đình
+你 儿子 几 岁 了|？|Con trai bạn mấy tuổi rồi?|几 + 岁 + 了|Hỏi tuổi trẻ nhỏ dùng 几岁; người lớn dùng 多大.|Gia đình
+你 今年 多 大|？|Năm nay bạn bao nhiêu tuổi?|Chủ ngữ + 今年 + 多大|多大 dùng hỏi tuổi người lớn hoặc bạn bè cùng trang lứa.|Gia đình
+大家 都 很 喜欢 他|。|Mọi người đều rất thích anh ấy.|Chủ ngữ + 都 + 很 + động từ|Thứ tự phó từ: 都 trước, 很 sau, rồi mới đến động từ.|Gia đình
+我 的 孩子 是 小学生|。|Con mình là học sinh tiểu học.|A + 是 + B|Câu “là” giới thiệu nghề nghiệp, thân phận.|Gia đình
+这 是 我 的 书|。|Đây là sách của mình.|这 + 是 + 我的 + danh từ|这 = đây/này, chỉ vật ở gần.|Gia đình
+那 是 谁 的 手机|？|Kia là điện thoại của ai?|那 + 是 + 谁的 + danh từ|谁的 = của ai. 那 = kia/đó, chỉ vật ở xa.|Gia đình
+现在 几 点|？|Bây giờ mấy giờ?|现在 + 几点|Hỏi giờ dùng 几点. Không cần 是.|Thời gian
+现在 八 点 半|。|Bây giờ là 8 giờ rưỡi.|số + 点 + 半|半 (rưỡi) đứng sau 点. Nói giờ không cần 是.|Thời gian
+今天 几 月 几 号|？|Hôm nay là ngày mấy tháng mấy?|几月 + 几号|Tháng trước, ngày sau (lớn → nhỏ). Khẩu ngữ dùng 号, văn viết dùng 日.|Thời gian
+今天 星期 几|？|Hôm nay thứ mấy?|星期 + 几|Trả lời: 星期一…星期六; chủ nhật là 星期天 hoặc 星期日.|Thời gian
+明天 是 星期六|。|Mai là thứ Bảy.|Thời gian + 是 + 星期 + số|Mẹo: thứ trong tiếng Việt trừ 1 là số trong tiếng Trung (thứ Bảy → 星期六).|Thời gian
+我 早上 七 点 起床|。|Mình dậy lúc 7 giờ sáng.|Chủ ngữ + thời gian + động từ|Thời gian đứng TRƯỚC động từ: “7 giờ dậy”, không nói 起床七点.|Thời gian
+我们 晚上 九 点 下班|。|Chúng mình tan làm lúc 9 giờ tối.|Chủ ngữ + buổi + giờ + động từ|Buổi (晚上) đứng trước giờ (九点), cả cụm đứng trước động từ.|Thời gian
+他 中午 在 学校 吃饭|。|Buổi trưa anh ấy ăn cơm ở trường.|Chủ ngữ + thời gian + 在 + nơi + động từ|Thứ tự chuẩn: ai → khi nào → ở đâu → làm gì.|Thời gian
+我 去年 去 了 中国|。|Năm ngoái mình đã đi Trung Quốc.|Động từ + 了 + tân ngữ|了 đứng ngay sau động từ báo việc đã làm xong.|Thời gian
+你 什么 时候 回 家|？|Khi nào bạn về nhà?|什么时候 + động từ|什么时候 (khi nào) đứng trước động từ.|Thời gian
+我 下午 有 课|。|Chiều nay mình có tiết học.|Chủ ngữ + thời gian + 有 + danh từ|有课 = có tiết học. Thời gian đứng trước 有.|Thời gian
+星期天 我 不 上班|。|Chủ nhật mình không đi làm.|Thời gian + chủ ngữ + 不 + động từ|Từ chỉ thời gian có thể đứng trước hoặc sau chủ ngữ.|Thời gian
+现在 太 晚 了|。|Bây giờ muộn quá rồi.|太 + tính từ + 了|太…了 = …quá. Thường đi thành cặp.|Thời gian
+今天 是 我 的 生日|！|Hôm nay là sinh nhật mình!|Thời gian + 是 + 我的 + danh từ|生日 = sinh nhật (Hán Việt: sinh nhật).|Thời gian
+现在 是 上午 七 点|。|Bây giờ là 7 giờ sáng.|现在 + 是 + buổi + giờ|Có thể thêm hoặc bỏ 是 khi nói giờ.|Thời gian
+你 想 吃 什么|？|Bạn muốn ăn gì?|想 + động từ + 什么|想 = muốn, đứng trước động từ.|Ăn uống
+我 想 喝 水|。|Mình muốn uống nước.|想 + động từ + tân ngữ|想 + động từ: muốn làm gì.|Ăn uống
+我 要 一 杯 茶|。|Cho mình một cốc trà.|要 + số + lượng từ + danh từ|Khi gọi món, 要 = “cho tôi / tôi lấy”. 杯 là lượng từ cốc, ly.|Ăn uống
+我 要 两 个 包子|。|Cho mình hai cái bánh bao.|要 + 两 + 个 + danh từ|Số 2 đứng trước lượng từ dùng 两, không dùng 二.|Ăn uống
+这 个 菜 很 好吃|。|Món này rất ngon.|这个 + danh từ + 很 + tính từ|Tính từ làm vị ngữ thường cần 很, không dùng 是.|Ăn uống
+米饭 太 多 了|。|Cơm nhiều quá.|太 + tính từ + 了|太…了 diễn tả mức độ quá cao.|Ăn uống
+我 不 喝 牛奶|。|Mình không uống sữa.|不 + động từ|不 phủ định thói quen hoặc ý muốn.|Ăn uống
+我 还 没 吃|。|Mình vẫn chưa ăn.|还没 + động từ|还没 = vẫn chưa. Việc chưa xảy ra dùng 没, không dùng 不.|Ăn uống
+我们 去 饭店 吃饭 吧|。|Chúng mình đi nhà hàng ăn đi.|去 + nơi + động từ + 吧|Câu liên động: đi đâu làm gì. 吧 cuối câu để rủ rê.|Ăn uống
+我 早饭 吃 面包 和 鸡蛋|。|Bữa sáng mình ăn bánh mì và trứng.|A + 和 + B|和 chỉ nối hai danh từ, không nối hai câu.|Ăn uống
+你 喜欢 吃 饺子 吗|？|Bạn có thích ăn sủi cảo không?|喜欢 + động từ + tân ngữ + 吗|喜欢 có thể đi với động từ: 喜欢吃 = thích ăn.|Ăn uống
+妈妈 正在 做饭|。|Mẹ đang nấu cơm.|正在 + động từ|正在 = đang, đứng trước động từ.|Ăn uống
+你 能 给 我 一 杯 水 吗|？|Bạn cho mình một cốc nước được không?|能 + 给 + người + vật + 吗|Nhờ vả lịch sự: 能…吗? 给 + người + vật = đưa ai cái gì.|Ăn uống
+这 个 多少 钱|？|Cái này bao nhiêu tiền?|这个 + 多少钱|多少钱 = bao nhiêu tiền, đặt cuối câu.|Mua sắm
+这些 苹果 多少 钱|？|Mấy quả táo này bao nhiêu tiền?|这些 + danh từ + 多少钱|这些 = những … này (số nhiều).|Mua sắm
+苹果 三 块 钱|。|Táo 3 đồng.|Danh từ + số + 块钱|Giá tiền làm vị ngữ trực tiếp, không cần 是.|Mua sắm
+太 贵 了|！|Đắt quá!|太 + tính từ + 了|Câu cảm thán hay dùng khi mặc cả.|Mua sắm
+可以 便宜 一点儿 吗|？|Có thể rẻ hơn một chút không?|可以 + tính từ + 一点儿 + 吗|Tính từ + 一点儿 = …hơn một chút. Câu mặc cả rất hay dùng.|Mua sắm
+这 件 衣服 很 便宜|。|Chiếc áo này rất rẻ.|这 + 件 + 衣服 + 很 + tính từ|件 là lượng từ cho quần áo.|Mua sắm
+这 件 衣服 有点儿 大|。|Chiếc áo này hơi rộng.|有点儿 + tính từ|有点儿 = hơi, thường mang ý chưa hài lòng.|Mua sắm
+我 想 买 一 本 书|。|Mình muốn mua một cuốn sách.|想 + 买 + số + 本 + danh từ|本 là lượng từ cho sách, vở.|Mua sắm
+你 要 买 什么|？|Bạn muốn mua gì?|要 + động từ + 什么|要 = muốn (ý định rõ ràng hơn 想).|Mua sắm
+我 去 超市 买 东西|。|Mình đi siêu thị mua đồ.|去 + nơi + động từ + tân ngữ|Câu liên động: việc làm trước đứng trước.|Mua sắm
+我 可以 看 一下 吗|？|Mình xem một chút được không?|可以 + động từ + 一下 + 吗|Động từ + 一下 làm câu nhẹ nhàng, lịch sự hơn.|Mua sắm
+商店 里 有 很 多 人|。|Trong cửa hàng có rất nhiều người.|Nơi + 里 + 有 + 很多 + danh từ|Từ phương vị 里 (trong) đứng SAU danh từ chỉ nơi.|Mua sắm
+我 买 了 三 本 书|。|Mình đã mua 3 cuốn sách.|Động từ + 了 + số + lượng từ + danh từ|了 sau động từ: đã làm xong.|Mua sắm
+你 去 哪儿|？|Bạn đi đâu?|去 + 哪儿|哪儿 = đâu, đứng đúng vị trí nơi chốn.|Đi lại
+我 坐 出租车 去 公司|。|Mình đi taxi đến công ty.|坐 + phương tiện + 去 + nơi|Phương tiện (坐…) đứng TRƯỚC 去 + nơi.|Đi lại
+我 坐 飞机 去 北京|。|Mình đi máy bay đến Bắc Kinh.|坐 + phương tiện + 去 + nơi|坐 dùng cho xe, tàu, máy bay mình ngồi lên.|Đi lại
+他 开车 去 上班|。|Anh ấy lái xe đi làm.|开车 + 去 + động từ|开车 = tự lái xe. Hai động từ nối tiếp theo trình tự.|Đi lại
+医院 在 前边|。|Bệnh viện ở phía trước.|Nơi + 在 + phương hướng|在 + từ phương hướng để nói vị trí.|Đi lại
+我 家 在 学校 后边|。|Nhà mình ở phía sau trường.|A + 在 + B + 后边|Vị trí: nơi mốc + phương hướng (学校后边 = sau trường).|Đi lại
+火车站 在 哪儿|？|Ga tàu ở đâu?|Nơi + 在 + 哪儿|Hỏi đường cơ bản: … 在哪儿？|Đi lại
+请问 医院 在 哪儿|？|Xin hỏi, bệnh viện ở đâu?|请问 + câu hỏi|请问 mở đầu câu hỏi cho lịch sự.|Đi lại
+你 什么 时候 到|？|Khi nào bạn đến nơi?|什么时候 + 到|到 = đến nơi (đã tới đích).|Đi lại
+我 到 家 了|。|Mình về đến nhà rồi.|到 + nơi + 了|了 cuối câu báo tình huống đã thay đổi.|Đi lại
+我们 坐 火车 回 家|。|Chúng mình đi tàu về nhà.|坐 + phương tiện + 回 + nơi|回 = về (quay lại nơi của mình).|Đi lại
+你 在 哪儿|？|Bạn đang ở đâu?|Chủ ngữ + 在 + 哪儿|在 làm động từ: “ở”.|Đi lại
+我 在 家 呢|。|Mình đang ở nhà.|在 + nơi + 呢|呢 cuối câu kể làm câu nghe tự nhiên, mang ý “đang”.|Đi lại
+车 来 了|！|Xe đến rồi!|Danh từ + 来了|了 cuối câu báo điều vừa xảy ra.|Đi lại
+我 在 大学 学习 汉语|。|Mình học tiếng Hán ở trường đại học.|在 + nơi + động từ + tân ngữ|Nơi chốn đứng trước động từ.|Học tập
+这 个 字 怎么 读|？|Chữ này đọc thế nào?|怎么 + động từ|怎么 + động từ = làm thế nào, hỏi cách làm.|Học tập
+这 个 汉字 怎么 写|？|Chữ Hán này viết thế nào?|怎么 + động từ|Câu hỏi rất hay dùng khi học chữ.|Học tập
+你 会 写 汉字 吗|？|Bạn biết viết chữ Hán không?|会 + động từ + 吗|会 = biết làm (nhờ học).|Học tập
+我们 八 点 上课|。|Chúng mình vào học lúc 8 giờ.|Chủ ngữ + giờ + 上课|上课 = vào học, 下课 = tan học.|Học tập
+下课 了|！|Tan học rồi!|Động từ + 了|了 cuối câu báo tình huống mới.|Học tập
+我 有 一 个 问题|。|Mình có một câu hỏi.|有 + 一个 + 问题|问题 = câu hỏi, vấn đề.|Học tập
+老师 问 了 我 一 个 问题|。|Thầy hỏi mình một câu hỏi.|问 + người + vật|Động từ có hai tân ngữ: người đứng trước, vật đứng sau.|Học tập
+同学们 都 来 了|。|Các bạn học đều đến rồi.|Chủ ngữ + 们 + 都 + động từ + 了|们 chỉ số nhiều cho người.|Học tập
+我们 都 在 学校 学习 汉语|。|Chúng mình đều học tiếng Hán ở trường.|都 + 在 + nơi + động từ|Thứ tự: 都 → 在 + nơi → động từ.|Học tập
+谁 是 你们 的 老师|？|Ai là giáo viên của các bạn?|谁 + 是 + B|谁 làm chủ ngữ thì đứng đầu câu.|Học tập
+我 学 了 一 年 汉语|。|Mình học tiếng Hán được một năm rồi.|Động từ + 了 + thời lượng + tân ngữ|Khoảng thời gian (một năm) đứng SAU động từ, trước tân ngữ.|Học tập
+我 在 公司 工作|。|Mình làm việc ở công ty.|在 + nơi + 工作|Nơi làm việc đặt trước 工作.|Công việc
+他 在 哪儿 工作|？|Anh ấy làm việc ở đâu?|在 + 哪儿 + 工作|Hỏi nơi làm việc: 在哪儿工作？|Công việc
+我 今天 很 忙|。|Hôm nay mình rất bận.|Chủ ngữ + thời gian + 很 + tính từ|Tính từ làm vị ngữ, không cần 是.|Công việc
+你 明天 能 来 吗|？|Mai bạn đến được không?|能 + động từ + 吗|能 = có thể (đủ điều kiện, thời gian).|Công việc
+我 明天 不 能 来|。|Mai mình không đến được.|不能 + động từ|Phủ định của 能 là 不能.|Công việc
+妈妈 在 学校 工作|。|Mẹ làm việc ở trường học.|在 + nơi + động từ|Nơi chốn trước động từ.|Công việc
+他 今天 没 来 上班|。|Hôm nay anh ấy không đến làm.|没 + động từ|Việc đã không xảy ra dùng 没, không dùng 不.|Công việc
+今天 天气 怎么样|？|Thời tiết hôm nay thế nào?|Thời gian + 天气 + 怎么样|怎么样 hỏi tình hình.|Thời tiết
+今天 很 热|。|Hôm nay rất nóng.|Thời gian + 很 + tính từ|Nói thời tiết: hôm nay + 很 + nóng/lạnh.|Thời tiết
+今天 太 热 了|！|Hôm nay nóng quá!|太 + tính từ + 了|太…了 nhấn mạnh mức độ.|Thời tiết
+今天 有点儿 冷|。|Hôm nay hơi lạnh.|有点儿 + tính từ|有点儿 = hơi (thường là không thích).|Thời tiết
+明天 会 下雨 吗|？|Mai có mưa không?|会 + động từ + 吗|会 còn nghĩa là “sẽ” khi dự đoán.|Thời tiết
+明天 会 很 热 吗|？|Ngày mai sẽ nóng lắm không?|会 + 很 + tính từ + 吗|会 = sẽ (dự đoán tương lai).|Thời tiết
+外边 下雨 了|。|Bên ngoài mưa rồi.|Nơi + 下雨 + 了|了 cuối câu: trước chưa mưa, giờ mưa rồi.|Thời tiết
+北京 下雪 了|。|Bắc Kinh có tuyết rồi.|Nơi + 下雪 + 了|下雪 = tuyết rơi.|Thời tiết
+我 生病 了|。|Mình bị ốm rồi.|生病 + 了|生病 = bị ốm. 了 báo trạng thái đã thay đổi.|Sức khỏe
+你 去 医院 看病 吧|。|Bạn đi bệnh viện khám đi.|去 + nơi + động từ + 吧|吧 cuối câu để khuyên, gợi ý.|Sức khỏe
+你 要 多 喝 水|。|Bạn phải uống nhiều nước.|要 + 多 + động từ|要 = cần phải. 多 + động từ = làm nhiều hơn.|Sức khỏe
+我 想 睡觉|。|Mình muốn ngủ.|想 + động từ|想睡觉 cũng hay dùng với nghĩa “buồn ngủ”.|Sức khỏe
+上午 八 点 我 去 医院 看 医生|。|8 giờ sáng mình đi bệnh viện khám bác sĩ.|Thời gian + chủ ngữ + 去 + nơi + động từ|Câu liên động có thời gian đứng đầu.|Sức khỏe
+你 喜欢 做 什么|？|Bạn thích làm gì?|喜欢 + 做 + 什么|Hỏi sở thích.|Sở thích
+我 喜欢 看 电影|。|Mình thích xem phim.|喜欢 + động từ + tân ngữ|喜欢 có thể đứng trước cả một hành động.|Sở thích
+她 喜欢 唱 歌|。|Cô ấy thích hát.|喜欢 + động từ + tân ngữ|唱歌 = hát (hát + bài hát).|Sở thích
+这 个 电影 很 好看|。|Bộ phim này rất hay.|这个 + danh từ + 很 + tính từ|好看 = đẹp; nói phim, sách thì là “hay”.|Sở thích
+她 的 歌 很 好听|。|Bài hát của cô ấy rất hay.|Định ngữ + 的 + danh từ + 很 + tính từ|好听 = hay, dễ nghe.|Sở thích
+我们 晚上 去 看 电影 吧|。|Tối nay chúng mình đi xem phim đi.|Thời gian + 去 + động từ + 吧|Rủ rê: … 吧.|Sở thích
+我 的 猫 很 漂亮|。|Con mèo của mình rất đẹp.|我的 + danh từ + 很 + tính từ|的 nối người sở hữu với vật.|Sở thích
+我 家 有 一 只 狗|。|Nhà mình có một con chó.|有 + 一 + 只 + danh từ|只 là lượng từ cho con vật.|Sở thích
+不要 玩 手机 了|。|Đừng chơi điện thoại nữa.|不要 + động từ + 了|不要…了 = đừng … nữa.|Sở thích
+我 在 看 电视 呢|。|Mình đang xem tivi.|在 + động từ + 呢|在…呢 = đang làm gì.|Sở thích
+你 在 做 什么 呢|？|Bạn đang làm gì thế?|在 + 做什么 + 呢|Hỏi ai đó đang làm gì.|Sở thích
+我 在 家 看 电影|。|Mình xem phim ở nhà.|在 + nơi + động từ|Nơi chốn trước động từ.|Sở thích
+我 和 朋友 在 家 看 电影|。|Mình xem phim ở nhà với bạn.|和 + người + 在 + nơi + động từ|和 + người (cùng ai) đứng trước nơi chốn và động từ.|Sở thích
+我们 都 爱 听 他 说话|。|Chúng mình đều thích nghe anh ấy nói chuyện.|都 + 爱 + động từ|爱 + động từ = rất thích làm gì.|Sở thích
+喂 请问 你 是 谁|？|Alô, xin hỏi ai đấy?|喂 + 请问 + câu hỏi|喂 = alô (khi nghe điện thoại).|Điện thoại
+我 给 你 打电话|。|Mình gọi điện cho bạn.|给 + người + 打电话|给 + người đứng TRƯỚC động từ: làm gì cho ai.|Điện thoại
+你 的 手机 号 是 多少|？|Số điện thoại của bạn là bao nhiêu?|Danh từ + 是 + 多少|Hỏi số (điện thoại, phòng) dùng 多少.|Điện thoại
+我 知道 了|。|Mình biết rồi.|知道 + 了|知道了 = đã biết, đã hiểu.|Điện thoại
+我 不 知道|。|Mình không biết.|不 + 知道|知道 = biết (thông tin).|Điện thoại
+你 说 什么|？|Bạn nói gì?|说 + 什么|什么 đứng đúng vị trí tân ngữ.|Điện thoại
+请 再 说 一 次|。|Xin nói lại một lần nữa.|请 + 再 + động từ + 一次|再 = lại (việc sẽ làm lại). 一次 = một lần.|Điện thoại
+请 坐|。|Mời ngồi.|请 + động từ|请 + động từ: lời mời lịch sự.|Rủ rê & nhờ vả
+请 喝 茶|。|Mời uống trà.|请 + động từ + tân ngữ|Mời khách uống trà.|Rủ rê & nhờ vả
+你 明天 来 我 家 玩 吧|。|Mai bạn đến nhà mình chơi nhé.|来 + nơi + động từ + 吧|Câu liên động: đến đâu làm gì. 吧 = nhé.|Rủ rê & nhờ vả
+我们 回 家 吧|。|Chúng mình về nhà thôi.|Chủ ngữ + động từ + 吧|吧 cuối câu để đề nghị.|Rủ rê & nhờ vả
+你 看 一下 这 个|。|Bạn xem cái này chút.|Động từ + 一下 + tân ngữ|一下 đặt ngay sau động từ, trước tân ngữ.|Rủ rê & nhờ vả
+我 给 你 一 本 书|。|Mình đưa bạn một cuốn sách.|给 + người + vật|Hai tân ngữ: người nhận trước, vật sau.|Rủ rê & nhờ vả
+妈妈 给 我 买 了 一 件 衣服|。|Mẹ mua cho mình một chiếc áo.|给 + người + động từ + 了 + vật|给 + người (cho ai) đứng trước động từ.|Rủ rê & nhờ vả
+不要 说话|！|Đừng nói chuyện!|不要 + động từ|不要 = đừng (câu cấm, nhắc nhở).|Rủ rê & nhờ vả
+你 想 去 超市 吗|？|Bạn có muốn đi siêu thị không?|想 + 去 + nơi + 吗|Hỏi ý muốn bằng 想…吗.|Rủ rê & nhờ vả
+我 不 想 去|。|Mình không muốn đi.|不 + 想 + động từ|Phủ định ý muốn: 不想.|Rủ rê & nhờ vả
+你 去 不 去|？|Bạn có đi không?|động từ + 不 + động từ|Câu chính phản A不A, không thêm 吗.|Rủ rê & nhờ vả
+我 想 坐 飞机 去 中国|。|Mình muốn đi máy bay sang Trung Quốc.|想 + 坐 + phương tiện + 去 + nơi|想 đứng trước cả cụm hành động.|Rủ rê & nhờ vả
+明天 下午 我 想 去 商店|。|Chiều mai mình muốn đi cửa hàng.|Thời gian + chủ ngữ + 想 + 去 + nơi|Thời gian có thể đứng đầu câu.|Rủ rê & nhờ vả
+我 觉得 这 个 很 好|。|Mình thấy cái này rất tốt.|觉得 + nhận xét|觉得 = cảm thấy, cho rằng.|Cảm nhận
+你 觉得 怎么样|？|Bạn thấy thế nào?|觉得 + 怎么样|Hỏi ý kiến người khác.|Cảm nhận
+我 很 想 你|。|Mình rất nhớ bạn.|很 + 想 + người|想 + người = nhớ ai.|Cảm nhận
+我 喜欢 猫 也 喜欢 狗|。|Mình thích mèo, cũng thích chó.|…，也 + động từ|也 nối hai vế cùng ý: “cũng”.|Cảm nhận
+我 买 了 苹果 还 买 了 牛奶|。|Mình mua táo, còn mua cả sữa.|…，还 + động từ|还 bổ sung thêm: “còn, ngoài ra còn”.|Cảm nhận
+这 是 我 第一 次 来 中国|。|Đây là lần đầu tiên mình đến Trung Quốc.|第 + số + 次|第 + số tạo số thứ tự: 第一次 = lần thứ nhất.|Cảm nhận
+妈妈 很 漂亮|。|Mẹ rất đẹp.|Chủ ngữ + 很 + tính từ|Tính từ làm vị ngữ cần 很, không nói 妈妈是漂亮.|Cảm nhận
+这 是 什么 东西|？|Đây là cái gì?|这 + 是 + 什么 + danh từ|什么 + danh từ = cái … gì.|Cảm nhận
+我 没 看见 他|。|Mình không nhìn thấy anh ấy.|没 + động từ|看见 = nhìn thấy. Việc không xảy ra dùng 没.|Cảm nhận
+我 的 三 本 书 在 桌子 上|。|Ba cuốn sách của mình ở trên bàn.|Vật + 在 + nơi + 上|Phương vị 上 (trên) đứng sau danh từ: 桌子上 = trên bàn.|Cảm nhận
+桌子 上 有 两 本 书|。|Trên bàn có hai cuốn sách.|Nơi + 上 + 有 + số + lượng từ + danh từ|Câu tồn tại: ở đâu có cái gì.|Cảm nhận
+今天 有点儿 冷 你 多 穿 衣服|。|Hôm nay hơi lạnh, bạn mặc thêm áo nhé.|多 + động từ + tân ngữ|多穿 = mặc nhiều thêm. 多 đứng trước động từ.|Thời tiết
+我 坐 出租车 回 家|。|Mình đi taxi về nhà.|坐 + phương tiện + 回 + nơi|坐 + phương tiện + 回/去 + nơi.|Đi lại
+我 晚上 十 点 睡觉|。|Mình đi ngủ lúc 10 giờ tối.|Chủ ngữ + buổi + giờ + động từ|Giờ đứng trước động từ.|Thời gian
+你 几 点 起床|？|Mấy giờ bạn thức dậy?|几点 + động từ|Hỏi giờ làm việc gì: 几点 + động từ.|Thời gian
+你 姐姐 是 大学生 吗|？|Chị gái bạn là sinh viên à?|A + 是 + B + 吗|大学生 = sinh viên đại học.|Gia đình
+我们 去 吃饭 吧|。|Chúng mình đi ăn đi.|去 + động từ + 吧|吧 rủ rê, đề nghị.|Ăn uống
+我 也 喜欢 喝 茶|。|Mình cũng thích uống trà.|Chủ ngữ + 也 + động từ|也 đứng sau chủ ngữ, trước động từ.|Ăn uống`;
+SENTS.length=0;
+SENT_RAW.split('\n').forEach(l=>{const[t,p,vi,st,nt,tp]=l.split('|');SENTS.push([t,p,vi,st,nt,tp])});
+const SENT_TOPICS=[...new Set(SENTS.map(s=>s[5]))];
 
 /* ================= BUILD DATA ================= */
 const isHan=c=>/[㐀-鿿]/.test(c);
@@ -1037,7 +1228,10 @@ const tz=(w,s)=>`<span class="tz"${s?` style="--s:${s}px"`:''}>${[...w].map(c=>`
 
 const WEEKS=WEEK;
 const MODES=[
- {id:'test',g:'考',n:'Kiểm tra tổng hợp',d:'20 câu trộn đủ dạng: nghĩa, nghe, thanh điệu, ngữ pháp',big:true,c:0},
+ {id:'endless',g:'练',n:'Luyện liên tục',d:'Không giới hạn số câu, trộn 15 dạng bài. Dừng lúc nào cũng được',big:true,c:5},
+ {id:'test',g:'考',n:'Kiểm tra tổng hợp',d:'20 câu trộn đủ dạng: nghĩa, nghe, thanh điệu, ngữ pháp',c:0},
+ {id:'sent',g:'说',n:'Hiểu câu',d:'Đọc hoặc nghe câu, chọn nghĩa',c:6},
+ {id:'char',g:'汉',n:'Chữ & Hán Việt',d:'Âm Hán Việt, chữ còn thiếu, thanh mấy',c:7},
  {id:'flash',g:'卡',n:'Thẻ ghi nhớ',d:'Lật thẻ, tự đánh dấu từ đã thuộc',c:1},
  {id:'meaning',g:'意',n:'Đoán nghĩa',d:'Nhìn chữ Hán, chọn nghĩa',c:2},
  {id:'reverse',g:'字',n:'Tìm chữ Hán',d:'Nhìn nghĩa, chọn chữ',c:3},
@@ -1054,7 +1248,7 @@ const TITLES=['Tân binh','Học trò','Chăm chỉ','Vững vàng','Thông th�
 
 /* ================= STATE ================= */
 const KEY='hsk1-arena-v1';
-function blank(){return{xp:0,words:{},wrong:[],streak:{last:'',n:0},sound:true,rounds:0,rads:{},py:true,tc:true,scope:'all',qlen:10,tlen:40,cur:null}}
+function blank(){return{xp:0,words:{},wrong:[],streak:{last:'',n:0},sound:true,rounds:0,rads:{},py:true,tc:true,scope:'all',qlen:10,tlen:40,cur:null,sseen:{}}}
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s==='object')return Object.assign(blank(),s)}catch(e){}return blank()}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}}
 let P=load();
@@ -1168,6 +1362,61 @@ function qPinyin(w){
     explain:`<span class="han" style="font-size:22px">${hz(w.h,false)}</span> đọc là ${pyHTML(w.raw)} — ${esc(w.m)}`};
 }
 
+/* ---- dạng bài mới ---- */
+function qPy2Han(w){
+  w=w||weightedWord();
+  return{type:'mcq',kind:'py2han',label:'Pinyin này là chữ nào?',key:w.h,han:true,hidePy:true,speakT:w.h,
+    prompt:`<div class="pybig">${pyHTML(w.raw)}</div><button class="speak" data-say="${esc(w.h)}">${SPK}Nghe</button>`,
+    opts:shuffle([w,...distractors(w,'p')]).map(v=>({l:hz(v.h),v:v.h})),ans:w.h,explain:vExplain(w)};
+}
+function qHanViet(w){
+  w=w||weightedWord();
+  return{type:'mcq',kind:'hanviet',label:'Âm Hán Việt của từ này là gì?',key:w.h,speakT:w.h,
+    prompt:`${tzw(w.h)}`,opts:shuffle([w,...distractors(w,'hv')]).map(v=>({l:esc(v.hv),v:v.h})),ans:w.h,explain:vExplain(w)};
+}
+function qListenM(w){
+  w=w||weightedWord();const q=qListen(w);
+  q.label='Nghe và chọn nghĩa đúng';q.han=false;q.opts=shuffle([w,...distractors(w,'m')]).map(v=>({l:esc(v.m),v:v.h}));return q;
+}
+function qMissing(w){
+  if(!w){const c=pool().filter(v=>[...v.h].length>1);if(!c.length)return qMeaning();w=weighted(c,v=>Math.max(.25,4-score(v.h)))}
+  const ch=[...w.h];if(ch.length<2)return qMeaning(w);
+  const idx=rnd(ch.length),c=ch[idx];
+  const makes=x=>{const t=ch.slice();t[idx]=x;return VBY[t.join('')]};
+  const near=shuffle([...new Set(GROUPS[w.g].words.flatMap(v=>[...v.h]))]),far=shuffle([...VCHARS]);
+  const ds=[];for(const x of [...near,...far]){if(x===c||ds.includes(x)||makes(x)||!isHan(x))continue;ds.push(x);if(ds.length>=3)break}
+  return{type:'mcq',kind:'missing',label:'Điền chữ còn thiếu',key:w.h,han:true,speakT:w.h,
+    prompt:`<span class="tz">${ch.map((x,i)=>`<span class="cell tn${toneOf(w.s[i])}"><span class="pyl">${esc(w.s[i])}</span><span class="box ${i===idx?'miss':''}"><b>${i===idx?'?':esc(x)}</b></span></span>`).join('')}</span><div class="sub">${esc(w.m)}</div>`,
+    opts:shuffle([c,...ds]).map(x=>({l:esc(x),v:x})),ans:c,explain:vExplain(w)};
+}
+function qTone(w){
+  if(!w){const c=pool().filter(v=>[...v.h].length===1&&toneOf(v.s[0])<5);if(!c.length)return qPinyin();w=weighted(c,v=>Math.max(.25,4-score(v.h)))}
+  if([...w.h].length!==1||toneOf(w.s[0])===5)return qPinyin(w);
+  const t=toneOf(w.s[0]),N=['','Thanh 1 · ngang ā','Thanh 2 · sắc á','Thanh 3 · hỏi ǎ','Thanh 4 · huyền à'];
+  return{type:'mcq',kind:'tone',label:'Chữ này đọc thanh mấy?',key:w.h,speakT:w.h,nopy:true,
+    prompt:`${tzw(w.h)}<div class="sub">${esc(w.m)}</div>`,opts:[1,2,3,4].map(i=>({l:esc(N[i]),v:String(i)})),ans:String(t),
+    explain:`<span class="han" style="font-size:22px">${hz(w.h,false)}</span> đọc là ${pyHTML(w.raw)}, thanh ${t} — ${esc(w.m)}`};
+}
+/* ---- câu ---- */
+const sentFull=s=>s[0].replace(/ /g,'')+s[1];
+function sentFormula(st){return`<div class="formula">${String(st||'').split(' + ').map(x=>/^[\u3400-\u9fff]+$/.test(x.trim())?`<span class="key">${esc(x.trim())}</span>`:`<span>${esc(x.trim())}</span>`).join('<i>+</i>')}</div>`}
+function sentExplain(s){return`<div class="sres"><div class="han forcepy sfull">${hz(sentFull(s))}</div></div>${s[3]?`<div class="slab">Cấu trúc</div>${sentFormula(s[3])}`:''}${s[4]?`<div class="gnote">${esc(s[4])}</div>`:''}`}
+function pickSent(){const seen=P.sseen||{};const src=G&&G.topic?SENTS.filter(x=>x[5]===G.topic):SENTS;return weighted(src.length?src:SENTS,x=>1/Math.pow(1+(seen[x[0]]||0),2))}
+function sentDistract(s){const out=[];for(const x of shuffle(SENTS)){if(x===s||x[2]===s[2]||out.some(o=>o[2]===x[2]))continue;out.push(x);if(out.length>=3)break}return out}
+function qSentM(s){
+  s=s||pickSent();const full=sentFull(s);
+  return{type:'mcq',kind:'sentm',label:'Câu này nghĩa là gì?',key:'SM:'+s[0],sid:s[0],speakT:full,
+    prompt:`<div class="sent">${hz(full)}</div><button class="speak" data-say="${esc(full)}">${SPK}Nghe</button>`,
+    opts:shuffle([s,...sentDistract(s)]).map(x=>({l:esc(x[2]),v:x[0]})),ans:s[0],fbName:esc(s[2]),explain:sentExplain(s),brief:`<span class="han">${esc(full)}</span> — ${esc(s[2])}`};
+}
+function qSentL(s){
+  s=s||pickSent();const q=qSentM(s);const audio=P.sound&&hasTTS();
+  q.kind='sentl';q.key='SL:'+s[0];q.label='Nghe câu và chọn nghĩa';
+  q.prompt=audio?`<button class="bigspk" data-say="${esc(q.speakT)}" aria-label="Nghe lại">${SPK}</button><div class="sub">Bấm loa để nghe lại</div>`
+    :`<div class="vi-big">${segPy(q.speakT).filter(o=>o.s).map(o=>esc(o.s)).join(' ')}</div><div class="audio-note">Máy chưa có giọng đọc nên hiện pinyin thay cho âm thanh.</div>`;
+  return q;
+}
+
 /* ================= NGỮ PHÁP & CÂU ================= */
 function qFill(f){
   f=f||pick(G&&G.gram?FILL.filter(x=>x[3]===G.gram):FILL);
@@ -1187,10 +1436,10 @@ function orderAlts(toks){
   return alts;
 }
 function qOrder(s){
-  s=s||pick(SENTS);const toks=s[0].split(' ');
-  return{type:'order',kind:'order',label:'Xếp thành câu đúng',key:'S:'+s[0],toks,bank:shuffle(toks.map((t,i)=>({t,i}))),
-    prompt:`<div class="vi-big">${esc(s[2])}</div>`,ans:toks.join(''),alts:orderAlts(toks),punct:s[1],speakT:toks.join('')+s[1],
-    explain:`<span class="han forcepy" style="font-size:21px">${hz(toks.join('')+s[1])}</span>`};
+  s=s||pickSent();const toks=s[0].split(' ');
+  return{type:'order',kind:'order',label:'Xếp thành câu đúng',sid:s[0],st:s[3]||'',brief:`<span class="han">${esc(toks.join('')+s[1])}</span> — ${esc(s[2])}`,key:'S:'+s[0],toks,bank:shuffle(toks.map((t,i)=>({t,i}))),
+    prompt:`<div class="vi-big">${esc(s[2])}</div>${s[5]?`<div class="sub">Chủ đề: ${esc(s[5])}</div>`:''}`,ans:toks.join(''),alts:orderAlts(toks),punct:s[1],speakT:toks.join('')+s[1],
+    explain:sentExplain(s)};
 }
 
 /* ================= BỘ THỦ ================= */
@@ -1260,23 +1509,29 @@ function qReview(){
   const k=pick(reviewList());
   if(k.startsWith('F:')){const f=FILL.find(x=>'F:'+x[0]===k);if(f)return qFill(f)}
   if(k.startsWith('S:')){const s=SENTS.find(x=>'S:'+x[0]===k);if(s)return qOrder(s)}
+  if(k.startsWith('SM:')||k.startsWith('SL:')){const s=SENTS.find(x=>x[0]===k.slice(3));if(s)return(k[1]==='M'?qSentM:qSentL)(s)}
   if(k.startsWith('RC:')||k.startsWith('R:')){const q=qRadChar(k.slice(k.indexOf(':')+1));return q||qRadical()}
   if(k.startsWith('RN:')&&RADX[k.slice(3)])return qRadName(RADX[k.slice(3)]);
   if(k.startsWith('RM:')&&RADX[k.slice(3)])return qRadMeaning(RADX[k.slice(3)]);
   if(k.startsWith('N:'))return qNumber();
-  const w=VBY[k];return w?pick([qMeaning,qReverse,qListen,qPinyin])(w):qMeaning();
+  const w=VBY[k];return w?pick([qMeaning,qReverse,qListen,qListenM,qPinyin,qPy2Han,qHanViet,qMissing])(w):qMeaning();
 }
 const GEN={meaning:()=>qMeaning(),reverse:()=>qReverse(),listen:()=>qListen(),pinyin:()=>qPinyin(),fill:()=>qFill(),order:()=>qOrder(),number:qNumber,radical:qRadical,review:qReview,
-  group:()=>pick([qMeaning,qMeaning,qReverse,qReverse,qListen,qPinyin])(),
+  group:()=>pick([qMeaning,qMeaning,qReverse,qReverse,qListen,qListenM,qPinyin,qPy2Han,qHanViet,qMissing,qTone])(),
+  py2han:()=>qPy2Han(),hanviet:()=>qHanViet(),missing:()=>qMissing(),tone:()=>qTone(),listenm:()=>qListenM(),
+  sent:()=>pick([qSentM,qSentM,qSentL])(),
+  char:()=>pick([qHanViet,qHanViet,qMissing,qMissing,qTone,qPy2Han])(),
+  endless:()=>weighted([[qMeaning,3],[qReverse,3],[qListen,3],[qListenM,2],[qPinyin,2],[qPy2Han,2],[qHanViet,2],[qMissing,2],[qTone,1],
+    [()=>qFill(),2],[()=>qOrder(),3],[()=>qSentM(),2],[()=>qSentL(),2],[qNumber,1],[qRadical,1]],x=>x[1])[0](),
   weak:()=>pick([qMeaning,qReverse,qListen,qPinyin])(pick(weakTop(12))),
   test:()=>{const half=Math.ceil(G.total/2),lis=G.i<half;
-    const q=lis?pick([qListen,qListen,qListen,qPinyin])():pick([qMeaning,qMeaning,qReverse,qFill,qFill,qOrder,qNumber])();
+    const q=lis?pick([qListen,qListen,qListenM,qListenM,()=>qSentL(),qPinyin])():pick([qMeaning,qReverse,qPy2Han,qMissing,()=>qFill(),()=>qFill(),()=>qOrder(),()=>qSentM(),qNumber])();
     q.label=(lis?'Phần nghe · ':'Phần đọc · ')+q.label;return q}};
 /* từ hay sai: ưu tiên từ đang trong mục cần ôn, rồi số lần sai */
 function weakTop(n){return VOCAB.filter(v=>P.words[v.h]&&P.words[v.h].w>0)
   .sort((a,b)=>(P.wrong.includes(b.h)-P.wrong.includes(a.h))||(P.words[b.h].w-P.words[a.h].w)||(score(a.h)-score(b.h))).slice(0,n||300)}
 function sayFor(q,v){if(VBY[v])return v;if(q.kind==='radical'&&RADX[v])return radSay(RADX[v]);
-  if((q.kind==='fill'||q.kind==='number')&&isHan(String(v)[0]))return v;return q.speakT}
+  if((q.kind==='fill'||q.kind==='number'||q.kind==='missing')&&isHan(String(v)[0]))return v;return q.speakT}
 
 
 /* ================= KHUNG PHẢN HỒI (mẫu C: so sánh dễ nhầm) ================= */
@@ -1303,7 +1558,7 @@ function vFb(w){
 }
 function decorate(q){
   if(q.fbName!==undefined)return q;
-  if(['meaning','reverse','listen'].includes(q.kind)&&VBY[q.key]){const w=VBY[q.key];q.brief=q.explain;q.fbName=`${pyHTML(w.raw)} · ${esc(w.m)}`;q.explain=vFb(w)}
+  if(['meaning','reverse','listen','py2han','hanviet','missing'].includes(q.kind)&&VBY[q.key]){const w=VBY[q.key];q.brief=q.explain;q.fbName=`${pyHTML(w.raw)} · ${esc(w.m)}`;q.explain=vFb(w)}
   else if(q.kind==='radical'&&RADX[q.rad]){const x=RADX[q.rad];q.brief=q.explain;
     q.fbName=q.key.startsWith('RC:')?`<span class="han">${esc(q.key.slice(3))}</span> thuộc bộ ${esc(x.hv)} · ${esc(x.m)}`:`Bộ ${esc(x.hv)} · ${esc(x.m)}`;
     q.explain=radFb(x)+(q.key.startsWith('RN:')&&x.ex.length?`<div class="cnote" style="color:var(--muted)">Ví dụ: ${x.ex.map(e=>`<span class="han">${esc(e.h)}</span> ${esc(e.m)}`).join(' · ')}</div>`:'')}
@@ -1317,19 +1572,20 @@ function start(mode,opt={}){
   if(mode==='review'&&!rvn)return;
   if(mode==='weak'&&!weakTop().length)return;
   const ql=P.qlen||10;
-  let total=mode==='test'?(P.tlen||40):mode==='review'?Math.min(ql,Math.max(3,rvn*2)):mode==='weak'?Math.min(ql,Math.max(4,weakTop(12).length*3)):ql,rq=null;
+  if(mode==='endless'||mode==='order'||mode==='sent'){}
+  let total=mode==='endless'?0:mode==='test'?(P.tlen||40):mode==='review'?Math.min(ql,Math.max(3,rvn*2)):mode==='weak'?Math.min(ql,Math.max(4,weakTop(12).length*3)):ql,rq=null;
   if(mode==='radical'&&!opt.quick){rq=shuffle(opt.rgroup!=null?RGROUPS[opt.rgroup][1].map(radByNo):RAD60);total=rq.length}
-  G={mode,total,i:0,res:[],combo:0,xp:0,missed:[],gram:opt.gram||null,rgroup:opt.rgroup!=null?opt.rgroup:null,vgroup:opt.vgroup!=null?opt.vgroup:null,used:new Set(),rq,quick:!!opt.quick};
+  G={mode,total,i:0,res:[],combo:0,xp:0,missed:[],gram:opt.gram||null,rgroup:opt.rgroup!=null?opt.rgroup:null,vgroup:opt.vgroup!=null?opt.vgroup:null,used:new Set(),rq,quick:!!opt.quick,endless:mode==='endless',topic:opt.topic||null,sess:opt.sess||null};
   next();
 }
 function next(){
   if(G.mode==='review'&&!reviewList().length&&G.i>0){G.total=G.i;return finish()}
-  if(G.i>=G.total)return finish();
+  if(!G.endless&&G.i>=G.total)return finish();
   let q,tries=0;
   do{q=GEN[G.mode]();tries++}while(G.used.has(q.label+q.key)&&tries<14&&!q.key.startsWith('N:'));
-  G.used.add(q.label+q.key);G.q=decorate(q);G.answered=false;G.placed=[];
+  G.used.add(q.label+q.key);G.q=decorate(q);G.answered=false;G.placed=[];G.showHint=false;
   V.tab='play';render();
-  if(q.kind==='listen'||q.kind==='meaning')speak(q.speakT);
+  if(['listen','meaning','sentm','sentl'].includes(q.kind))speak(q.speakT);
 }
 /* ---- lưu bài đang làm dở ---- */
 function persistCur(){
@@ -1350,13 +1606,13 @@ function resumeCur(){
   V.tab='play';render();window.scrollTo&&window.scrollTo(0,0);
   if(G.mode!=='flash'&&!G.answered&&G.q.kind==='listen')speak(G.q.speakT);
 }
-function curName(c){return MODE_NAME(c.mode)+(c.custom?' · Từ cần ôn':'')+(c.vgroup!=null&&GROUPS[c.vgroup]?' · Chặng '+(c.vgroup+1)+': '+GROUPS[c.vgroup].n:'')+(c.rgroup!=null?' · Nhóm '+(c.rgroup+1):'')}
+function curName(c){return MODE_NAME(c.mode)+(c.topic?' · '+c.topic:'')+(c.custom?' · Từ cần ôn':'')+(c.vgroup!=null&&GROUPS[c.vgroup]?' · Chặng '+(c.vgroup+1)+': '+GROUPS[c.vgroup].n:'')+(c.rgroup!=null?' · Nhóm '+(c.rgroup+1):'')}
 function curBanner(){const c=P.cur;if(!c)return'';
-  const pos=c.mode==='flash'?`thẻ ${c.i+1}`:`câu ${Math.min(c.i+1,c.total)}/${c.total}`;
+  const pos=c.mode==='flash'?`thẻ ${c.i+1}`:c.endless?`đã làm ${c.res.length} câu`:`câu ${Math.min(c.i+1,c.total)}/${c.total}`;
   return`<div class="resume panel"><div><b>Bài đang làm dở</b><small>${esc(curName(c))} · ${pos}</small></div><button class="btn sm" id="resume">Làm tiếp</button><button class="chip" id="dropCur">Bỏ</button></div>`}
 function askQuit(){
   if(document.getElementById('modal'))return;
-  const done=G.mode==='flash'?G.i:G.res.length,n=G.mode==='flash'?`${G.i} thẻ`:`${G.res.length}/${G.total} câu`;
+  const done=G.mode==='flash'?G.i:G.res.length,n=G.mode==='flash'?`${G.i} thẻ`:G.endless?`${G.res.length} câu`:`${G.res.length}/${G.total} câu`;
   const m=document.createElement('div');m.id='modal';m.className='modal';
   m.innerHTML=`<div class="mbox panel" role="dialog" aria-modal="true" aria-labelledby="mt"><h2 id="mt">Thoát bài đang làm?</h2>
     <p class="sub">${done?`Bạn đã làm ${n}. Phần này được lưu lại, lần sau bấm “Làm tiếp” ở trang Lộ trình để học tiếp.`:'Bạn chưa làm câu nào nên bài này sẽ không được lưu.'}</p>
@@ -1370,6 +1626,7 @@ function answer(val){
   G.res.push(ok);
   const k=q.key;
   if(VBY[k]){const w=P.words[k]||(P.words[k]={c:0,w:0});ok?w.c++:w.w++}
+  if(q.sid){P.sseen=P.sseen||{};P.sseen[q.sid]=(P.sseen[q.sid]||0)+1}
   if(q.rad){const r=P.rads[q.rad]||(P.rads[q.rad]={c:0,w:0});ok?r.c++:r.w++}
   if(ok){G.combo++;const gain=10+Math.min(G.combo-1,5)*2;G.xp+=gain;P.xp+=gain;
     const idx=P.wrong.indexOf(k);if(idx>=0&&(G.mode==='review'||(VBY[k]&&score(k)>=1)||(q.rad&&rscore(q.rad)>=1)))P.wrong.splice(idx,1);
@@ -1382,6 +1639,7 @@ function answer(val){
 function finish(){
   const d=today();
   if(P.streak.last!==d){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);P.streak.n=P.streak.last===y?P.streak.n+1:1;P.streak.last=d}
+  if(G.endless)G.total=G.res.length;
   P.rounds++;P.cur=null;save();V.tab='result';render();
 }
 function startFlash(vg,list){
@@ -1450,9 +1708,11 @@ function renderPractice(){
   $('#main').innerHTML=`${curBanner()}<h1>Luyện tập tự do</h1><p class="sub">Mỗi lượt ${P.qlen} câu. Từ chưa thuộc xuất hiện nhiều hơn, câu sai và từ bấm “Chưa nhớ” được lưu lại để ôn.</p>
   <div class="scope">${sc.map(([id,l])=>`<button class="chip" data-scope="${id}" aria-pressed="${P.scope===id}">${l}</button>`).join('')}</div>
   <p class="sub" style="font-size:13px">Phạm vi từ áp dụng cho thẻ ghi nhớ, đoán nghĩa, tìm chữ, nghe và thanh điệu.</p>
-  <div class="lenrow"><span>Số câu mỗi lượt:</span>${[10,20,30].map(n=>`<button class="chip" data-qlen="${n}" aria-pressed="${P.qlen===n}">${n} câu</button>`).join('')}</div>
+  <div class="lenrow"><span>Số câu mỗi lượt:</span>${[10,20,30,50].map(n=>`<button class="chip" data-qlen="${n}" aria-pressed="${P.qlen===n}">${n} câu</button>`).join('')}</div>
   <div class="lenrow"><span>Bài kiểm tra tổng hợp:</span>${[20,40,60].map(n=>`<button class="chip" data-tlen="${n}" aria-pressed="${P.tlen===n}">${n} câu${n===40?' · như đề thi':''}</button>`).join('')}</div>
   <div class="modes" style="margin-top:14px">${MODES.map(x=>{const[c,cd]=gcol(x.c);return`<button class="mode ${x.big?'big':''}" style="--c:${c};--cd:${cd}" data-mode="${x.id}" ${x.id==='review'&&!P.wrong.length?'disabled':''}><span class="ic">${x.g}</span><span><b>${x.n}</b><small>${x.id==='review'?(P.wrong.length?`${P.wrong.length} câu đang chờ`:'Chưa có câu sai nào'):x.id==='radical'?`${x.d} · ${radMastered()}/60 đã thuộc`:x.id==='test'?`${P.tlen} câu · nửa đầu phần nghe, nửa sau phần đọc`:x.d}</small></span></button>`}).join('')}</div>
+  <div class="sec"><h2>Xếp câu theo chủ đề</h2><small>${SENTS.length} câu dùng hằng ngày, có cấu trúc và giải thích</small></div>
+  <div class="scope"><button class="chip" data-otopic="">Tất cả chủ đề</button>${SENT_TOPICS.map(t=>`<button class="chip" data-otopic="${esc(t)}">${esc(t)} · ${SENTS.filter(x=>x[5]===t).length}</button>`).join('')}</div>
   <div class="foot"><span id="resetbox"><button class="chip" id="reset">Xóa tiến độ</button></span><span>Phím tắt: 1–4 chọn đáp án · Enter tiếp tục · P bật/tắt pinyin</span></div>`;
 }
 function wrongLabel(k){
@@ -1516,18 +1776,19 @@ function renderPlay(){
   const q=G.q,done=G.res.length;
   let body='';
   if(q.type==='mcq'){
-    body=`<div class="opts ${q.kind==='listen'&&!G.answered?'nopy':''}">${q.opts.map((o,i)=>{let cls='';if(G.answered){cls='ro';if(o.v===q.ans)cls+=' ok';else if(o.v===G.last.val)cls+=' no shake'}
+    body=`<div class="opts ${(q.kind==='listen'||q.hidePy)&&!G.answered?'nopy':''}">${q.opts.map((o,i)=>{let cls='';if(G.answered){cls='ro';if(o.v===q.ans)cls+=' ok';else if(o.v===G.last.val)cls+=' no shake'}
       return`<button class="opt ${q.han?'hanopt':''} ${cls}" data-ans="${esc(o.v)}"><span class="k">${i+1}</span>${o.l}</button>`}).join('')}</div>`;
   }else{
     const placed=G.placed.map((bi,pi)=>`<button class="tok" data-unplace="${pi}" ${G.answered?'disabled':''}>${hz(q.bank[bi].t)}</button>`).join('');
     body=`<div class="answer ${G.answered?(G.last.ok?'ok':'no shake'):''}">${placed}</div>
     <div class="bank">${q.bank.map((b,bi)=>`<button class="tok ${G.placed.includes(bi)?'used':''}" data-place="${bi}" ${G.answered?'disabled':''}>${hz(b.t)}</button>`).join('')}</div>
-    ${G.answered?'':`<div class="check"><button class="btn" id="checkOrder" ${G.placed.length===q.bank.length?'':'disabled'}>Kiểm tra</button><button class="btn ghost" id="clearOrder">Làm lại</button></div>`}`;
+    ${G.answered?'':`${q.st?(G.showHint?`<div class="hintbox"><div class="slab">Gợi ý cấu trúc</div>${sentFormula(q.st)}</div>`:`<div style="margin-top:12px"><button class="chip" id="oHint">Xem gợi ý cấu trúc</button></div>`):''}<div class="check"><button class="btn" id="checkOrder" ${G.placed.length===q.bank.length?'':'disabled'}>Kiểm tra</button><button class="btn ghost" id="clearOrder">Làm lại</button></div>`}`;
   }
   const fb=G.answered?`<div class="fb ${G.last.ok?'ok pop':'no'}"><div class="msg"><b>${G.last.ok?pick(['Chính xác!','Giỏi lắm!','Đúng rồi!','Tuyệt!']):'Chưa đúng'}${q.fbName?` <span class="fbn">${G.last.ok?'':'Đáp án: '}${q.fbName}</span>`:''}</b><div class="detail">${q.fbName?'':(G.last.ok?'':'Đáp án: ')}${q.explain}</div>
     ${q.speakT?`<button class="speak" data-say="${esc(q.speakT)}" style="margin-top:8px">${SPK}Nghe lại</button>`:''}</div>
-    <button class="btn ${G.last.ok?'mint':''}" id="nextQ">${G.i+1>=G.total?'Xem kết quả':'Tiếp tục'}</button></div>`:'';
-  $('#main').innerHTML=`<div class="playhead"><button class="quit" id="quit" aria-label="Thoát">${XIC}</button><div class="prog"><i style="width:${done/G.total*100}%"></i></div><div class="combo ${G.combo>=2?'hot':''}">${G.combo>=2?`Combo ×${G.combo}`:`${G.i+1}/${G.total}`}</div></div>
+    <div class="fbacts">${G.endless?`<button class="btn ghost" id="stopEnd">Dừng</button>`:''}<button class="btn ${G.last.ok?'mint':''}" id="nextQ">${!G.endless&&G.i+1>=G.total?'Xem kết quả':'Tiếp tục'}</button></div></div>`:'';
+  $('#main').innerHTML=`<div class="playhead"><button class="quit" id="quit" aria-label="Thoát">${XIC}</button><div class="prog"><i style="width:${G.endless?(done?G.res.filter(Boolean).length/done*100:0):done/G.total*100}%"></i></div><div class="combo ${G.combo>=2?'hot':''}">${G.combo>=2?`Combo ×${G.combo}`:G.endless?`Câu ${G.i+1}`:`${G.i+1}/${G.total}`}</div>${G.endless?`<button class="chip" id="stopEnd">Dừng</button>`:''}</div>
+  ${G.endless?`<p class="sub endl">Đúng ${G.res.filter(Boolean).length}/${done} câu · bấm Dừng để xem kết quả</p>`:''}
   <div class="card panel"><div class="qlabel">${esc(q.label)}</div><div class="prompt ${q.nopy?'nopy':''}">${q.prompt}</div>${body}${fb}
   <div class="hint">${G.answered?(q.type==='mcq'?'Chạm vào từng đáp án để nghe lại':''):(q.type==='mcq'?'Phím tắt: 1–4 để chọn':'Chạm từ đã xếp để trả lại')}</div></div>`;
   if(G.answered){const b=$('#nextQ');if(b&&b.focus)b.focus()}
@@ -1551,12 +1812,14 @@ function renderResult(){
   const ok=G.res.filter(Boolean).length,tot=G.total,pct=tot?ok/tot:0,fl=G.mode==='flash';
   const [st,lab]=fl?['记','Đã ôn xong bộ thẻ']:pct>=.9?['优','Xuất sắc!']:pct>=.7?['良','Khá lắm!']:pct>=.5?['中','Đạt rồi']:['加油','Cố lên nhé'];
   const g=G.vgroup!=null?GROUPS[G.vgroup]:null,nx=g&&GROUPS[g.i+1];
-  let cta=`<button class="btn" id="again">Chơi lại</button>`;
+  let cta=`<button class="btn" id="again">${G.endless?'Luyện tiếp':'Chơi lại'}</button>`;
+  if(G.mode==='order')cta=`<button class="btn mint" id="contOrder">Làm tiếp ${P.qlen} câu</button>`;
   if(fl&&g)cta=`${gWrong(g.i).length?`<button class="btn" data-gr="${g.i}">Ôn ${gWrong(g.i).length} từ vừa quên</button>`:''}<button class="btn mint" data-gq="${g.i}">Luyện ${P.qlen} câu chặng này</button><button class="btn ghost" id="again">Học lại thẻ</button>`;
   else if(G.mode==='group'&&g&&pct>=.8&&nx)cta=`<button class="btn mint" data-flash="${nx.i}">Sang chặng ${nx.i+1}: ${esc(nx.n)}</button><button class="btn ghost" id="again">Luyện lại</button>`;
   $('#main').innerHTML=`<div class="result panel"><div class="medal ${st.length>1?'small':''} ${!fl&&pct<.5?'lo':''}">${st}</div>
-  <h1>${lab}</h1><p class="sub">${esc(MODE_NAME(G.mode))}${G.custom?' · Từ cần ôn':''}${g?' · Chặng '+(g.i+1)+': '+esc(g.n):''}${G.gram?' · '+esc(GRAMMAR.find(x=>x.id===G.gram).t):''}${G.rgroup!=null?' · Nhóm '+(G.rgroup+1)+': '+esc(RGROUPS[G.rgroup][0]):''}</p>
+  <h1>${lab}</h1><p class="sub">${esc(MODE_NAME(G.mode))}${G.topic?' · '+esc(G.topic):''}${G.custom?' · Từ cần ôn':''}${g?' · Chặng '+(g.i+1)+': '+esc(g.n):''}${G.gram?' · '+esc(GRAMMAR.find(x=>x.id===G.gram).t):''}${G.rgroup!=null?' · Nhóm '+(G.rgroup+1)+': '+esc(RGROUPS[G.rgroup][0]):''}</p>
   <div class="rstats"><div><b>${ok}/${tot}</b><span>${fl?'Thẻ đã thuộc':'Câu đúng'}</span></div><div><b>+${G.xp}</b><span>XP nhận được</span></div><div><b>${g?gDone(g)+'/'+g.words.length:mastered()+'/300'}</b><span>Từ đã thuộc</span></div></div>
+  ${G.mode==='order'&&G.sess?`<p class="sub">Cả phiên: đã xếp ${G.sess.n+tot} câu, đúng ${G.sess.ok+ok} câu</p>`:''}
   ${G.missed.length?`<div class="missed"><h3>${fl?'Từ chưa nhớ · đã thêm vào mục cần ôn':'Câu cần xem lại'}</h3><ul>${G.missed.map(q=>`<li>${q.brief||q.explain}</li>`).join('')}</ul></div>`:''}
   <div class="rbtns">${cta}${P.wrong.length?`<button class="btn ghost" data-tab="ontap">Xem ${P.wrong.length} mục cần ôn</button>`:''}<button class="btn ghost" id="home">Về lộ trình</button></div></div>`;
 }
@@ -1577,6 +1840,7 @@ document.addEventListener('click',e=>{
   if(t.dataset.rgroup!==undefined){start('radical',{rgroup:+t.dataset.rgroup});return}
   if(t.dataset.scope){P.scope=t.dataset.scope;save();renderPractice();return}
   if(t.dataset.ans!==undefined){if(G&&G.answered){speak(sayFor(G.q,t.dataset.ans));return}answer(t.dataset.ans);return}
+  if(t.dataset.otopic!==undefined){start('order',{topic:t.dataset.otopic||null});return}
   if(t.dataset.qlen){P.qlen=+t.dataset.qlen;save();renderPractice();return}
   if(t.dataset.tlen){P.tlen=+t.dataset.tlen;save();renderPractice();return}
   if(t.dataset.place!==undefined){const bi=+t.dataset.place;if(!G.placed.includes(bi)){G.placed.push(bi);speak(G.q.bank[bi].t);renderPlay()}return}
@@ -1590,9 +1854,12 @@ document.addEventListener('click',e=>{
     case'mStay':closeModal();break;
     case'mQuit':closeModal();if(G&&(G.mode==='flash'?G.i:G.res.length)){persistCur()}else{P.cur=null;save()}G=null;V.tab='home';render();window.scrollTo&&window.scrollTo(0,0);break;
     case'resume':resumeCur();break;
+    case'oHint':G.showHint=true;renderPlay();break;
+    case'stopEnd':if(G&&G.res.length){finish()}else{P.cur=null;save();G=null;V.tab='practice';render()}break;
+    case'contOrder':{const okc=G.res.filter(Boolean).length,ss={n:(G.sess?G.sess.n:0)+G.total,ok:(G.sess?G.sess.ok:0)+okc};start('order',{topic:G.topic,sess:ss})}break;
     case'dropCur':P.cur=null;save();render();break;
     case'flashWrong':startFlash(null,VOCAB.filter(v=>P.wrong.includes(v.h)));break;
-    case'again':G.mode==='flash'?startFlash(G.vgroup,G.custom?VOCAB.filter(v=>P.wrong.includes(v.h)):null):start(G.mode,{gram:G.gram,rgroup:G.rgroup,vgroup:G.vgroup,quick:G.quick});break;
+    case'again':G.mode==='flash'?startFlash(G.vgroup,G.custom?VOCAB.filter(v=>P.wrong.includes(v.h)):null):start(G.mode,{gram:G.gram,rgroup:G.rgroup,vgroup:G.vgroup,quick:G.quick,topic:G.topic});break;
     case'home':V.tab='home';render();break;
     case'fcFlip':flipCard();break;
     case'fcKnow':flashMark(true);break;
